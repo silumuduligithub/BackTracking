@@ -1,0 +1,42 @@
+class Solution {
+    int totalConfiguration = 0;
+    public int totalNQueens(int n) {
+        placeQueen(new int[n][n], 0, n);
+        return totalConfiguration;
+    }
+    public void placeQueen(int[][] grid, int row, int n){
+        if(row == n){
+            totalConfiguration;
+            return;
+        }
+        for(int i = 0; i < n; i++){
+            if(isSafe(grid, row, i)){
+                grid[row][i] = 1;
+                
+                placeQueen(grid, row + 1, n);
+                grid[row][i] = 0;
+            }
+        }
+    }
+     public boolean isSafe(int[][] grid, int row, int col){
+        // lets first try to place left_top_ digonal 
+        int i = row - 1;
+        int j = col - 1;
+        while(i >= 0 && j >= 0){
+            if(grid[i--][j--] == 1)return false;
+        }
+        // lets try to place on up direction
+        i = row - 1;
+        j = col;
+        while(i >= 0){
+            if(grid[i--][j] == 1)return false;
+        }
+        //lets try to place right top digonal
+        i = row - 1;
+        j = col + 1;
+        while(i >= 0 && j < grid[0].length){
+            if(grid[i--][j++] == 1) return false;
+        }
+        return true;
+    }
+}
