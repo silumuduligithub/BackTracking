@@ -1,0 +1,23 @@
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> finalAns = new ArrayList<>();
+        List<Integer> carrier = new ArrayList<>();
+        generatePermutation(nums, new int[nums.length], 0, finalAns, carrier);
+        return finalAns;
+    }
+    public void generatePermutation(int[] nums, int[] boxes, int idx, List<List<Integer>> finalAns, List<Integer> carrier){
+        if(idx == nums.length){
+            finalAns.add(new ArrayList<>(carrier));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(boxes[i] != 1){
+                boxes[i] = 1;
+                carrier.add(nums[i]);
+                generatePermutation(nums, boxes, idx + 1, finalAns, carrier);
+                boxes[i] = 0;
+                carrier.remove(carrier.size() - 1);
+            }
+        }
+    }
+}
