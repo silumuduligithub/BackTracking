@@ -1,0 +1,28 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+       List<List<Integer>> finalAns = new ArrayList<>();
+		List<Integer> carrier = new ArrayList<>();
+		Arrays.sort(candidates);
+		generateCombinations(candidates, 0, target, finalAns, carrier);
+		return finalAns;  
+    }
+    public void generateCombinations(int[] nums, int idx, int target, List<List<Integer>> finalAns, List<Integer> carrier){
+		if(target < 0)return;
+		if(target == 0){
+			finalAns.add(new ArrayList<>(carrier));
+			return;
+		}
+		if(idx == nums.length){
+			if(target == 0){
+				finalAns.add(new ArrayList<>(carrier));
+			}
+			return;
+		}
+		target -= nums[idx];
+		carrier.add(nums[idx]);
+		generateCombinations(nums, idx, target, finalAns, carrier);
+		target += nums[idx];
+		carrier.remove(carrier.size() - 1);
+		generateCombinations(nums, idx + 1, target, finalAns, carrier);
+	}
+}
