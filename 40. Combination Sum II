@@ -1,0 +1,28 @@
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> finalAns = new ArrayList<>();
+        List<Integer> carrier = new ArrayList<>();
+        Arrays.sort(candidates);
+        generateCombinations(candidates, target, 0, finalAns, carrier);
+        return finalAns;
+    }
+    public void generateCombinations(int[] nums, int target, int idx, List<List<Integer>> finalAns, List<Integer> carrier){
+        if(target < 0)return;
+        if(target == 0){
+            finalAns.add(new ArrayList<>(carrier));
+            return;
+        }
+        if(idx == nums.length){
+            if(target == 0)finalAns.add(new ArrayList<>(carrier));
+            return;
+        }
+        target -= nums[idx];
+        carrier.add(nums[idx]);
+        generateCombinations(nums, target, idx + 1, finalAns, carrier);
+        target += nums[idx];
+        carrier.remove(carrier.size() - 1);
+        int i = idx;
+        while(i < nums.length - 1 && nums[i] == nums[i + 1])i++;// here we check if the number is already included in our recurtion then we do not need to include that number again to avoid repeation
+        generateCombinations(nums, target, i + 1, finalAns, carrier);
+    }
+}
