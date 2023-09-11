@@ -1,0 +1,59 @@
+class Solution {
+    List<List<String>> ans;
+    public List<List<String>> solveNQueens(int n) {
+        ans = new ArrayList<>();
+        placeQueen(new int[n][n], 0, n);
+        return ans;
+    }
+    public void placeQueen(int[][] grid, int row, int n){
+        if(row == n){
+            List<String> subAns = new ArrayList<>();
+            for(int i = 0; i < n; i++){
+                String str ="";
+                for(int j = 0; j < n; j++){
+                    if(grid[i][j] == 1){
+                        str += "Q";
+                    }
+                    else{
+                        str += ".";
+                    }
+                }
+                subAns.add(str);
+            }
+            ans.add(subAns);
+            return;
+        }
+        for(int col = 0; col < n; col++){
+            if(isSafe(grid, row, col)){
+                grid[row][col] = 1;
+                placeQueen(grid, row + 1, n);
+                grid[row][col] = 0;
+            }
+        }
+    }
+    public boolean isSafe(int[][] grid, int row, int col){
+        // check left is valid or not
+        int i = row - 1, j = col - 1;
+        while(i >= 0 && j >= 0){
+            if(grid[i][j] == 1)return false;
+            i--;
+            j--;
+        }
+        // check top is valid or not
+        i = row - 1;
+        j = col;
+        while(i >= 0){
+            if(grid[i][j] == 1)return false;
+            i--;
+        }
+        // check right is valid or not
+        i = row - 1;
+        j = col + 1;
+        while(i >= 0 && j < grid.length){
+            if(grid[i][j] == 1)return false;
+            i--;
+            j++;
+        }
+        return true;
+    }
+}
